@@ -1,0 +1,61 @@
+group 'ar.gmf'
+version '0.0.1-SNAPSHOT'
+
+buildscript {
+    ext {
+        kotlinVersion = '1.1.4'
+        springBootVersion = '1.5.6.RELEASE'
+        dockerPluginVersion = '1.2'
+        gitflowPluginVersion = '0.5.0'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath "se.transmode.gradle:gradle-docker:${dockerPluginVersion}"
+        classpath "io.github.robwin:jgitflow-gradle-plugin:${gitflowPluginVersion}"
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'maven'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+test {
+    testLogging {
+        events 'passed', 'skipped'
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-amqp')
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
+    compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${jacksonVersion}")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}")
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.testcontainers:testcontainers:1.4.2")
+}
